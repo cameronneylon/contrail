@@ -1,0 +1,1 @@
+[{"paramname" : "scale","value" : 2.0,"fixed" : True},{"paramname" : "radius", "value" : 40.0},{"paramname" :  "length","value" : 200.0,"fixed" : False}, {"paramname" : "sldSolv", "value" : 0.000006, "fixed": True}]
