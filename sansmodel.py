@@ -30,6 +30,9 @@ import scipy.optimize
 import numpy as np
 import copy
 
+sys.path.append('/Users/Cameron/Documents/Python/cml')
+from conventions.simple_comp_chem import *
+
 class ApplicationRun():
     """Command line app for running refinements and model calculations
 
@@ -50,9 +53,6 @@ class ApplicationRun():
         self.__init_parser()
         self._raw_args = self.parser.parse_args()
         self.args = vars(self._raw_args)
-        self.__distribute_args()
-
-        
         
     def __init_parser(self):
 
@@ -90,8 +90,8 @@ class ApplicationRun():
         
         self.parser.add_argument('-parameters', type = str,
                                  help = """The paramaters, as either a json
-                          file or a list of dictionaries with structure as defined for
-                          the parinfo option of mpfit.""")
+                          file or a list of dictionaries with structure as defined
+                          for the parinfo option of mpfit.""")
 
         self.parser.add_argument('-q_vals', '-q_values', type = str,
                                  help = """A list of q values for calculating
@@ -113,12 +113,45 @@ class ApplicationRun():
                                  command line then outpath defaults to the
                                  current working directory.""")
 
+        self.parser.add_argument('-xml', action = 'store_true',
+                                 help = """Write output to CML file.""")
+
+
+    def execute(self):
+        """Generate Model Wrapper and Execute."""
+
+        self.model_instance = ModelWrapper(self.args)
+        self.model_instance.execute()
+
+    def write_out(self):
+        self.model_instance.write()
+        
+
+class ModelWrapper:
+    def __init__(self, args):
+
+        self.args = args
+        self.__distribute_args()
+        self._registered_models = {'cylinder' : {
+                                     'library_name':'CylinderModel',
+                                     'model_name'  :'CylinderModel'},
+                                   'sphere'   : {
+                                     'library_name':'SphereModel',
+                                     'model_name'  :'SphereModel'},
+                                   'ellipse'  : {
+                                     'library_name':'EllipsoidModel',
+                                     'model_name'  :'EllipsoidModel'}
+                                   }
+
+
     def __distribute_args(self):
         """Initialiser to distribute commandline args to internal variables"""
 
         for key in self.args.iterkeys():
             self.__dict__[key] = self.args[key]
-        
+        if not 'q_vals' in self.args:
+            self.q_vals = None
+            
     def execute(self):
         """Routine to execute the calculation or fit"""
 
@@ -135,14 +168,14 @@ class ApplicationRun():
     def fit(self):
         """Run the fit process for the given model
 
-        The parameters list is set up from those parameters that are not set as fixed
-        in self.parameters. As these parameters have already been set in the model in
-        the __load_args function they do not need to be set again here. If this library
-        is being used in scripts it might be appropriate to reset parameters for the
-        model here just to be safe.
+        The parameters list is set up from those parameters that are not set as
+        fixed in self.parameters. As these parameters have already been set in
+        the model in the __load_args function they do not need to be set again here.        If this library is being used in scripts it might be appropriate to reset
+        parameters for the model here just to be safe.
         """
         
         parameters=[]
+        self.q_vals = self.datain.q
         for par in self.parameters:
             if not par.get('fixed', False):
                 parameters.append(Parameter(self.__model_func, par['paramname'],
@@ -156,7 +189,8 @@ class ApplicationRun():
 
             residuals=[]
             for j in range(len(self.datain.q)):
-                residuals.append(self.datain.i[j] - self.__model_func.run(self.datain.q[j]))
+                residuals.append(self.datain.i[j] -
+                             self.__model_func.run(self.datain.q[j]))
 
             return residuals
 
@@ -169,7 +203,7 @@ class ApplicationRun():
 
         p = [param() for param in parameters]
         out, self.cov_x, info, mesg, success = scipy.optimize.leastsq(f, p, 
-                                                                 full_output=1) #, warning=True)
+                                                                 full_output=1)
         # Calculate chi squared
         if len(parameters) > 1:
             self.chisqr = chi2(out)
@@ -211,20 +245,20 @@ class ApplicationRun():
         """Calculate values of i for given model and q values
 
         The function first sets up the list of q values, either from an existing
-        imported list of values, or from a list of three values (start, stop, numpts)
-        or two values (start, stop, assumed 100 points).
-
-        The function then sets the appropriate parameters for the model and evaluates
-        the model for each value in q, setting self.i_vals_out and self.q_vals_out
-        in preparation for writing out the results.
+        imported list of values, or from a list of three values (start, stop,
+        numpts) or two values (start, stop, assumed 100 points). The function then
+        sets the appropriate parameters for the model and evaluates the model for
+        each value in q, setting self.i_vals_out and self.q_vals_out in preparation
+        for writing out the results.
         """
         
-        q_vals_list = json.loads(self.q_vals)
+        q_vals_list = self.q_vals
         if len(q_vals_list) == 2:
             q_vals = np.arange(q_vals_list[0], q_vals_list[1], 100)
 
         elif len(q_vals_list) == 3:
-            q_vals = np.arange(q_vals_list[0], q_vals_list[1], q_vals_list[2]).tolist()
+            q_vals = np.arange(q_vals_list[0], q_vals_list[1],
+                                    q_vals_list[2]).tolist()
 
         else:
             q_vals = q_vals_list
@@ -236,7 +270,7 @@ class ApplicationRun():
         self.q_vals_out = q_vals
         return True
 
-    def write_out(self):
+    def write(self):
         outdict = {'model'            : self.model,
                    'data_out'         : {'q'       : json.dumps(self.q_vals_out),
                                          'i'       : json.dumps(self.i_vals_out),
@@ -256,7 +290,6 @@ class ApplicationRun():
 
         if os.path.split(self.outpath)[1]:
             path, filename = os.path.split(self.outpath)
-            filename = filename.rstrip('.json') + '.json'
         else:
             path = os.path.dirname(self.outpath)
             filename = self.outfile
@@ -264,10 +297,63 @@ class ApplicationRun():
         if not os.path.exists(path):
             os.mkdir(path)
 
+        if self.xml:
+            self.write_cml(path, filename)
+
+        else:
+            f = open(os.path.join(path, filename), 'w')
+            json.dump(outdict, f)
+            f.close()
+
+    def write_cml(self, path, filename):
+        """Write a CML output file to disc."""
+
+        doc = SimpleCompChem()
+        doc.initialisation().setTitle('SANSModel Input Parameters')
+        doc.finalisation().setTitle('SANSModel output')
+
+        # Setup the input parameter list and populate it
+        in_param_list=[]
+        if self.command == 'fit':
+            for parameter in self.parameters_in:
+                 in_param_list.append({'value' : parameter['value'],
+                                       'attrib': { 'dictRef' :
+                                                   parameter['paramname'],
+                                                   'units'   : 'ang or 1/cm'}})
+
+        if self.dataset:
+            in_param_list.append({'value' : self.datain.q,
+                                  'attrib': { 'dictRef' : 'experimentalQData',
+                                              'units'   : 'ang^-1'}})
+            in_param_list.append({'value' : self.datain.i,
+                                  'attrib': { 'dictRef' : 'experimentalIData',
+                                              'units'   : 'cm^-1'}})
+                                                    
+        doc.initialisation().populate(in_param_list)
+ 
+        # Setup the input parameter list and populate it
+        out_param_list=[]
+        for parameter in self.parameters:
+            out_param_list.append({'value' : parameter['value'],
+                                  'attrib': { 'dictRef' : parameter['paramname'],
+                                              'units'   : 'ang or 1/cm'}})
+        out_param_list.append({'value' : self.q_vals_out,
+                                  'attrib': { 'dictRef' : 'modelQData',
+                                              'units'   : 'ang^-1'}})
+        out_param_list.append({'value' : self.i_vals_out,
+                                  'attrib': { 'dictRef' : 'modelIData',
+                                              'units'   : 'cm^-1'}})
+
+        doc.finalisation().populate(out_param_list)
+
+        doc.job().setTitle('SANSModel: ' + self.command)
+        doc.jobslist().setTitle('SANSModel: ' + self.command)
+
+        filename = filename.rstrip('.xml') + '.xml'
         f = open(os.path.join(path, filename), 'w')
-        json.dump(outdict, f)
-        f.close()
-                                  
+        doc.write(f).close()
+        
+        
 
     def __load_files_from_args(self):
         """Load files in based on command arguments
@@ -285,9 +371,7 @@ class ApplicationRun():
 
         # Load and parse the parameters
         if self.parameters:
-            print 'self.params:', self.parameters
             if os.path.isfile(self.parameters):
-                print 'self.outpath:', self.outpath
                 if not self.outpath:
                     self.outpath = os.path.dirname(self.parameters)
                     if self.outpath == '': self.outpath = os.getcwd()
@@ -309,7 +393,8 @@ class ApplicationRun():
             if (paramname not in input_param_list) and (
                     paramname not in self.__model_func.orientation_params):
                 self.parameters.append({'paramname' : paramname,
-                                        'value' : self.__model_func.getParam(paramname)
+                                        'value' :
+                                       self.__model_func.getParam(paramname)
                                         })
 
         # Set the parameters for the model
@@ -328,6 +413,7 @@ class ApplicationRun():
 
         elif self.q_vals:
             q_in = json.loads(self.q_vals)
+            self.q_vals = q_in
 
         else:
             pass

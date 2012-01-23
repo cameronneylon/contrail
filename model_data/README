@@ -1,0 +1,9 @@
+README for model Data
+
+Experimental data which we know fits adequately to both ellipse and cylinder models was fitted using the cylinder and ellipse models from SANSView. The parameters sldSolv, sldCyl/sldEll, were fixed at known values. Background was fitted from a starting position of 0 in all cases.
+
+The other initial parameters (essentially length and width and concentration) were swept across 9 values each yielding a total of 9x9x9x2 starting parameter sets. The fits were carried out and the results written out as CML. The filenames are sequential so "missing files" represent fits that did not converge successfully.
+
+Starting parameters are found in the path cml:jobsList:job:initialisation:parameterList where they are stored as a parameter element wrapping a scalar (model parameters) or array (experimental data) element.
+
+Final fit parameters are found in the path cml:jobsList:job:finalisation:propertyList where they are stored as a property element wrapping a scalar (output model and fit parameters) or array (output model data) element.
