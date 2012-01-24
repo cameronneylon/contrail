@@ -59,7 +59,7 @@ for model in ['cylinder', 'ellipse']:
                     i+=1
                     
                 except:
-                    print 'Run:', i, 'failed fit'
+                    print 'failed fit'
                     i+=1
                     pass
                 

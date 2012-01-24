@@ -337,6 +337,10 @@ class ModelWrapper:
             out_param_list.append({'value' : parameter['value'],
                                   'attrib': { 'dictRef' : parameter['paramname'],
                                               'units'   : 'ang or 1/cm'}})
+
+        out_param_list.append({'value' : self.chisqr,
+                               'attrib' : { 'dictRef' : 'chi2',
+                                            'units'  : 'variance'}})
         out_param_list.append({'value' : self.q_vals_out,
                                   'attrib': { 'dictRef' : 'modelQData',
                                               'units'   : 'ang^-1'}})
