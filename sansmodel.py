@@ -46,7 +46,6 @@ class ApplicationRun():
         self.model = None
         self.parameters = None
         self.dataset = None
-        self.outfile = 'outfile.json'
         self.datain = None
         self.outpath = None
 
@@ -130,6 +129,7 @@ class ApplicationRun():
 class ModelWrapper:
     def __init__(self, args):
 
+        self.outfile = 'sansmodel_output'
         self.args = args
         self.__distribute_args()
         self._registered_models = {'cylinder' : {
@@ -288,7 +288,7 @@ class ModelWrapper:
                               'cov_x'          : np.array_repr(self.cov_x),
                               'parameters_out' : self.parameters}
 
-        if os.path.split(self.outpath)[1]:
+        if os.path.isfile(os.path.split(self.outpath)[1]):
             path, filename = os.path.split(self.outpath)
         else:
             path = os.path.dirname(self.outpath)
