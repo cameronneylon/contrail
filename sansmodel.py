@@ -30,8 +30,7 @@ import scipy.optimize
 import numpy as np
 import copy
 
-sys.path.append('/Users/Cameron/Documents/Python/cml')
-from conventions.simple_comp_chem import *
+from pycml.conventions.simple_comp_chem import *
 
 class ApplicationRun():
     """Command line app for running refinements and model calculations
