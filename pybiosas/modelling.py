@@ -1,4 +1,4 @@
-# SansModel: A python library for interacting with SansView 
+# PyBioSas.modelling: A python library for interacting with SansView 
 # implementation of the NIST SANS models at command line level
 #
 # Public Domain Waiver:
@@ -16,8 +16,11 @@
 # In addition it requires non-standard library elements including:
 #     * Sansview (and all its dependencies)
 #     * Numpy and Scipy
-#     * sas (http://github.com/cameronneylon/######
+#     * pycml
+#     * pybiosas.sas_utils
 #
+# In principle these should all be installed for you if you've used
+# pip or easy_install to pull this package from PyPi
 
 import argparse
 import json

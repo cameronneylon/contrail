@@ -1,6 +1,7 @@
 import unittest
 from pybiosas import modelling
 import json
+import os.path
 
 class TestSimpleFits(unittest.TestCase):
 
@@ -9,6 +10,13 @@ class TestSimpleFits(unittest.TestCase):
                      'dataset' : 'test/testdata.xml',
                      'outpath' : 'test',
                      'command' : 'fit'}
+        if os.path.isfile('testdata.xml'):
+            self.default_args['dataset'] = 'testdata.xml'
+        elif os.path.isfile('test/testdata.xml'):
+            self.default_args['dataset'] = 'test/testdata.xml'
+        else:
+            print "Can't find data for test, run tests from root of package or test/"
+            raise IOError
         self.params_json = [
             {"fixed": True, "value": 2.0, "paramname": "scale"},
             {"fixed": True, "value": 6e-06, "paramname": "sldSolv"}
@@ -86,3 +94,5 @@ class TestSimpleFits(unittest.TestCase):
                                  'value'     : 4.896173e-6}]
         self.root_model_test(self.model, self.params, self.expected_values)
 
+if __name__ == '__main__':
+    unittest.main()
