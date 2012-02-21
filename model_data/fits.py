@@ -1,6 +1,4 @@
-import sys
-sys.path.append('/Users/Cameron/Documents/Python/sas-analysis/contrail')
-import sansmodel
+from pybiosas import modelling
 import json
 
 sldSolv=6.3e-6
@@ -53,7 +51,7 @@ for model in ['cylinder', 'ellipse']:
                     args['model'] = model
                     args['parameters'] = json.dumps(parameters)
                     print "Run:", i
-                    modelrun = sansmodel.ModelWrapper(args)
+                    modelrun = modelling.ModelWrapper(args)
                     modelrun.execute()
                     modelrun.write()
                     i+=1

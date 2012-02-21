@@ -25,7 +25,7 @@ import sys
 import datetime
 import os
 import os.path
-import sas
+import pybiosas.sas_utils
 import scipy.optimize
 import numpy as np
 import copy
@@ -365,7 +365,7 @@ class ModelWrapper:
 
         if self.dataset:
             try:
-                self.datain = sas.loadsasxml(self.dataset)
+                self.datain = pybiosas.sas_utils.loadsasxml(self.dataset)
                 self.datain.err = None
             except OSError:
                 errmsg = "Unable to load file: " + self.dataset
