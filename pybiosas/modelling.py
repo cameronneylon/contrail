@@ -290,12 +290,10 @@ class ModelWrapper:
                               'cov_x'          : np.array_repr(self.cov_x),
                               'parameters_out' : self.parameters}
 
-        if os.path.isfile(os.path.split(self.outpath)[1]):
-            path, filename = os.path.split(self.outpath)
-        else:
-            path = os.path.dirname(self.outpath)
-            filename = self.outfile
-        
+        path, filename = os.path.split(self.outpath)
+        if filename == '':
+             filename = self.outfile
+             
         if not os.path.exists(path):
             os.mkdir(path)
 
