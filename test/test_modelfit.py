@@ -48,6 +48,10 @@ class TestSimpleFits(unittest.TestCase):
                                    paramdict[expected_value['paramname']],
                                    places = 3)
 
+        print "Testing:", model
+        for key in iter(paramdict):
+            print key, paramdict[key]
+            
         return paramdict
         
 
