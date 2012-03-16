@@ -43,15 +43,18 @@ class TestSimpleFits(unittest.TestCase):
         modelrun.execute()
         paramdict = self.organise_parameters(modelrun.parameters)
 
-        print "Testing:", model
-        for key in iter(paramdict):
-            print key, paramdict[key]
+        print "\nTesting:", model
+        #for key in iter(paramdict):
 
 
         for expected_value in expected_values:
+            print (expected_value['paramname'] + ' ' +
+                       'Found:' + str(paramdict[expected_value['paramname']]) + ' ' +
+                       'Expected:' + str(expected_value['value']))
+
             self.assertAlmostEqual(expected_value['value'],
                                    paramdict[expected_value['paramname']],
-                                   places = 3)
+                                   places = 2)
             
         return paramdict
         
@@ -59,13 +62,19 @@ class TestSimpleFits(unittest.TestCase):
     def testSphereFit(self):
         self.model = 'sphere'
         self.test_data = 'test_data_sphere.xml'
-        self.params= [{"value": 40.0,
+        self.params= [{"value": 60.0,
                        "paramname": "radius"}]
 
-        self.expected_values = [{'paramname' : 'radius',
+        self.expected_values = [{'paramname' : 'scale',
+                                 'value'     : 0.01},
+                                {'paramname' : 'radius',
                                  'value'     : 40.0},
                                 {'paramname' : 'sldSph',
-                                 'value'     : 2e-6}]
+                                 'value'     : 2e-6},
+                                {'paramname' : 'sldSolv',
+                                 'value'     : 1e-5},
+                                {'paramname' : 'background',
+                                 'value'     : 0.1}]
         self.root_model_test(self.model, self.params, self.expected_values, self.test_data)
         
     def testEllipseFit(self):
@@ -73,16 +82,22 @@ class TestSimpleFits(unittest.TestCase):
         self.test_data = 'test_data_ellipse.xml'
         self.params= [{"value" : 40,
                        "paramname" : "radius_a"},
-                      {"value" : 60,
+                      {"value" : 100,
                        "paramname" : "radius_b"}]
                        
 
-        self.expected_values = [{'paramname' : 'radius_a',
+        self.expected_values = [{'paramname' : 'scale',
+                                 'value'     : 0.01},
+                                {'paramname' : 'radius_a',
                                  'value'     : 30.0},
                                 {'paramname' : 'radius_b',
                                  'value'     : 200.0},
                                 {'paramname' : 'sldEll',
-                                 'value'     : 2e-6}]
+                                 'value'     : 2e-6},
+                                {'paramname' : 'sldSolv',
+                                 'value'     : 1e-5},
+                                {'paramname' : 'background',
+                                 'value'     : 0.001}]
         self.root_model_test(self.model, self.params, self.expected_values, self.test_data)
 
     def testCylinderFit(self):
@@ -90,7 +105,7 @@ class TestSimpleFits(unittest.TestCase):
         self.test_data = 'test_data_cylinder.xml'
         self.params= [{"value" : 20,
                        "paramname" : "radius"},
-                      {"value" : 120,
+                      {"value" : 50,
                        "paramname" : "length"}]
                        
 
