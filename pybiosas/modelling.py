@@ -172,7 +172,8 @@ class ModelWrapper:
 
         The parameters list is set up from those parameters that are not set as
         fixed in self.parameters. As these parameters have already been set in
-        the model in the __load_args function they do not need to be set again here.        If this library is being used in scripts it might be appropriate to reset
+        the model in the __load_args function they do not need to be set again here.
+        If this library is being used in scripts it might be appropriate to reset
         parameters for the model here just to be safe.
         """
         
