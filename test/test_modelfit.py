@@ -7,19 +7,18 @@ class TestSimpleFits(unittest.TestCase):
 
     def setUp(self):
         self.default_args = {'xml' : True,
-                     'dataset' : 'test/testdata.xml',
                      'outpath' : 'test',
                      'command' : 'fit'}
         if os.path.isfile('testdata.xml'):
-            self.default_args['dataset'] = 'testdata.xml'
+            self.test_data_dir = ''
         elif os.path.isfile('test/testdata.xml'):
-            self.default_args['dataset'] = 'test/testdata.xml'
+            self.test_data_dir = 'test'
         else:
             print "Can't find data for test, run tests from root of package or test/"
             raise IOError
         self.params_json = [
-            {"fixed": True, "value": 2.0, "paramname": "scale"},
-            {"fixed": True, "value": 6e-06, "paramname": "sldSolv"}
+            {"fixed" : True, "value": 0.01, "paramname": "scale"},
+            {"fixed" : True, "value": 1e-05, "paramname": "sldSolv"}
             ]
         self.params_file = 'test.json'
         self.data_file = 'testdata.xml'
@@ -33,9 +32,10 @@ class TestSimpleFits(unittest.TestCase):
         return returndict
 
 
-    def root_model_test(self, model, params, expected_values):
+    def root_model_test(self, model, params, expected_values, test_data):
         self.args = self.default_args
         self.args['model'] = model
+        self.args['dataset'] = os.path.join(self.test_data_dir, test_data)
         for param in params:
             self.params_json.append(param)
         self.args['parameters'] = json.dumps(self.params_json)
@@ -43,31 +43,34 @@ class TestSimpleFits(unittest.TestCase):
         modelrun.execute()
         paramdict = self.organise_parameters(modelrun.parameters)
 
+        print "Testing:", model
+        for key in iter(paramdict):
+            print key, paramdict[key]
+
+
         for expected_value in expected_values:
             self.assertAlmostEqual(expected_value['value'],
                                    paramdict[expected_value['paramname']],
                                    places = 3)
-
-        print "Testing:", model
-        for key in iter(paramdict):
-            print key, paramdict[key]
             
         return paramdict
         
 
     def testSphereFit(self):
         self.model = 'sphere'
+        self.test_data = 'test_data_sphere.xml'
         self.params= [{"value": 40.0,
                        "paramname": "radius"}]
 
         self.expected_values = [{'paramname' : 'radius',
-                                 'value'     : 52.93727},
+                                 'value'     : 40.0},
                                 {'paramname' : 'sldSph',
-                                 'value'     : 5.840343e-6}]
-        self.root_model_test(self.model, self.params, self.expected_values)
+                                 'value'     : 2e-6}]
+        self.root_model_test(self.model, self.params, self.expected_values, self.test_data)
         
     def testEllipseFit(self):
         self.model = 'ellipse'
+        self.test_data = 'test_data_ellipse.xml'
         self.params= [{"value" : 40,
                        "paramname" : "radius_a"},
                       {"value" : 60,
@@ -75,28 +78,35 @@ class TestSimpleFits(unittest.TestCase):
                        
 
         self.expected_values = [{'paramname' : 'radius_a',
-                                 'value'     : 0.5870366},
+                                 'value'     : 30.0},
                                 {'paramname' : 'radius_b',
-                                 'value'     : 77.94983},
+                                 'value'     : 200.0},
                                 {'paramname' : 'sldEll',
-                                 'value'     : 4.896173e-6}]
-        self.root_model_test(self.model, self.params, self.expected_values)
+                                 'value'     : 2e-6}]
+        self.root_model_test(self.model, self.params, self.expected_values, self.test_data)
 
     def testCylinderFit(self):
         self.model = 'cylinder'
-        self.params= [{"value" : 40,
+        self.test_data = 'test_data_cylinder.xml'
+        self.params= [{"value" : 20,
                        "paramname" : "radius"},
-                      {"value" : 60,
+                      {"value" : 120,
                        "paramname" : "length"}]
                        
 
-        self.expected_values = [{'paramname' : 'radius',
-                                 'value'     : 69.390798},
+        self.expected_values = [{'paramname' : 'scale',
+                                 'value'     : 0.01},
+                                {'paramname' : 'radius',
+                                 'value'     : 30.0},
                                 {'paramname' : 'length',
-                                 'value'     : 5.937745},
+                                 'value'     : 100.0},
                                 {'paramname' : 'sldCyl',
-                                 'value'     : 4.896173e-6}]
-        self.root_model_test(self.model, self.params, self.expected_values)
+                                 'value'     : 2e-6},
+                                {'paramname' : 'sldSolv',
+                                 'value'     : 1e-5},
+                                {'paramname' : 'background',
+                                 'value'     : 0.2}]
+        self.root_model_test(self.model, self.params, self.expected_values, self.test_data)
 
 if __name__ == '__main__':
     unittest.main()
