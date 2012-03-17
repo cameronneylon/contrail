@@ -44,9 +44,6 @@ class TestSimpleFits(unittest.TestCase):
         paramdict = self.organise_parameters(modelrun.parameters)
 
         print "\nTesting:", model
-        #for key in iter(paramdict):
-
-
         for expected_value in expected_values:
             print (expected_value['paramname'] + ' ' +
                        'Found:' + str(paramdict[expected_value['paramname']]) + ' ' +

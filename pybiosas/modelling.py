@@ -221,29 +221,6 @@ class ModelWrapper:
 
         for p in parameters:
             self.parameters[paramlist.index(p.get_name())]['value'] = p.get()
-        
-    def __fit_func(self, qvec, ivec, err=None):
-        
-        qi = zip(qvec, ivec)
-        def f(p, fjac = None):
-            for n in range(len(self.parameters)):
-                self.__model_func.setParam(self.parameters[n]['paramname'], p[n])
-
-            residuals = map(self.__eval_residuals, qi)
-            return [0, residuals]
-
-        return f
-
-    def __eval_residuals(self, qi):
-        q, i = qi
-        return self.__model_func.run(q) - i
-
-        #if err == None:
-            #return 0, (self.__model_func.run(q) - i)
-        #else:
-        #    return 0, ((self.__model_func.run(q) - i)/err)
-        
-
 
     def calculate(self):
         """Calculate values of i for given model and q values
