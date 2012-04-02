@@ -29,6 +29,7 @@ import datetime
 import os
 import os.path
 import pybiosas.sas_utils
+import pybiosas.models
 import scipy.optimize
 import numpy as np
 import copy
@@ -61,16 +62,7 @@ class ApplicationRun():
         
         # TODO System for monitoring and registering models automatically
         # The available models are just hard coded at the moment
-        self._registered_models = {'cylinder' : {
-                                     'library_name':'CylinderModel',
-                                     'model_name'  :'CylinderModel'},
-                                   'sphere'   : {
-                                     'library_name':'SphereModel',
-                                     'model_name'  :'SphereModel'},
-                                   'ellipse'  : {
-                                     'library_name':'EllipsoidModel',
-                                     'model_name'  :'EllipsoidModel'}
-                                   }
+        self._registered_models = pybiosas.models.models
 
         self.parser.add_argument('command', type = str,
                                  choices = ['fit', 'calc', 'calculate'],
@@ -134,16 +126,7 @@ class ModelWrapper:
         self.outfile = 'sansmodel_output'
         self.args = args
         self.__distribute_args()
-        self._registered_models = {'cylinder' : {
-                                     'library_name':'CylinderModel',
-                                     'model_name'  :'CylinderModel'},
-                                   'sphere'   : {
-                                     'library_name':'SphereModel',
-                                     'model_name'  :'SphereModel'},
-                                   'ellipse'  : {
-                                     'library_name':'EllipsoidModel',
-                                     'model_name'  :'EllipsoidModel'}
-                                   }
+        self._registered_models = pybiosas.models.models
 
 
     def __distribute_args(self):
@@ -205,7 +188,7 @@ class ModelWrapper:
             return sum
 
         p = [param() for param in parameters]
-        out, self.cov_x, info, mesg, success = scipy.optimize.leastsq(f, p, 
+        out, self.cov_x, self.fit_info, mesg, success = scipy.optimize.leastsq(f, p, 
                                                                  full_output=1,
                                                                   maxfev = 1000*len(p))
         # Calculate chi squared
