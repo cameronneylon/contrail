@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="cansasxml-html.xsl"?>
+<SASroot xmlns="cansas1d/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="cansas1d/1.0 http://svn.smallangles.net/svn/canSAS/1dwg/trunk/cansas1d.xsd">
+  <!--canSAS XML created by canSAS1d/1.0 XML formatter-->
+  <SASentry name="entry1">
+    <Title>Test CoreShellBicellData</Title>
+    <Run/>
+    <SASdata>
+      <Idata>
+        <Q unit="1/A">0.001</Q>
+        <I unit="1/cm">1115.62</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0010677</Q>
+        <I unit="1/cm">1115.3</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00113999</Q>
+        <I unit="1/cm">1114.94</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00121717</Q>
+        <I unit="1/cm">1114.52</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00129958</Q>
+        <I unit="1/cm">1114.05</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00138757</Q>
+        <I unit="1/cm">1113.51</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00148151</Q>
+        <I unit="1/cm">1112.9</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00158182</Q>
+        <I unit="1/cm">1112.21</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00168892</Q>
+        <I unit="1/cm">1111.41</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00180326</Q>
+        <I unit="1/cm">1110.51</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00192535</Q>
+        <I unit="1/cm">1109.48</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0020557</Q>
+        <I unit="1/cm">1108.3</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00219488</Q>
+        <I unit="1/cm">1106.97</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00234349</Q>
+        <I unit="1/cm">1105.44</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00250215</Q>
+        <I unit="1/cm">1103.71</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00267156</Q>
+        <I unit="1/cm">1101.74</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00285243</Q>
+        <I unit="1/cm">1099.5</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00304556</Q>
+        <I unit="1/cm">1096.95</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00325175</Q>
+        <I unit="1/cm">1094.04</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00347191</Q>
+        <I unit="1/cm">1090.75</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00370697</Q>
+        <I unit="1/cm">1087</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00395795</Q>
+        <I unit="1/cm">1082.74</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00422592</Q>
+        <I unit="1/cm">1077.91</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00451204</Q>
+        <I unit="1/cm">1072.42</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00481752</Q>
+        <I unit="1/cm">1066.2</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00514369</Q>
+        <I unit="1/cm">1059.16</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00549194</Q>
+        <I unit="1/cm">1051.18</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00586376</Q>
+        <I unit="1/cm">1042.16</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00626077</Q>
+        <I unit="1/cm">1031.97</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00668465</Q>
+        <I unit="1/cm">1020.47</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00713723</Q>
+        <I unit="1/cm">1007.52</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00762045</Q>
+        <I unit="1/cm">992.954</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00813638</Q>
+        <I unit="1/cm">976.603</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00868725</Q>
+        <I unit="1/cm">958.29</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.00927541</Q>
+        <I unit="1/cm">937.829</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0099034</Q>
+        <I unit="1/cm">915.034</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0105739</Q>
+        <I unit="1/cm">889.723</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0112898</Q>
+        <I unit="1/cm">861.723</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0120542</Q>
+        <I unit="1/cm">830.883</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0128703</Q>
+        <I unit="1/cm">797.08</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0137417</Q>
+        <I unit="1/cm">760.242</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.014672</Q>
+        <I unit="1/cm">720.357</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0156654</Q>
+        <I unit="1/cm">677.497</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.016726</Q>
+        <I unit="1/cm">631.836</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0178584</Q>
+        <I unit="1/cm">583.677</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0190675</Q>
+        <I unit="1/cm">533.467</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0203585</Q>
+        <I unit="1/cm">481.815</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0217368</Q>
+        <I unit="1/cm">429.498</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0232085</Q>
+        <I unit="1/cm">377.457</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0247798</Q>
+        <I unit="1/cm">326.768</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0264575</Q>
+        <I unit="1/cm">278.588</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0282488</Q>
+        <I unit="1/cm">234.081</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0301614</Q>
+        <I unit="1/cm">194.302</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0322034</Q>
+        <I unit="1/cm">160.064</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0343837</Q>
+        <I unit="1/cm">131.804</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0367117</Q>
+        <I unit="1/cm">109.465</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0391972</Q>
+        <I unit="1/cm">92.4403</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.041851</Q>
+        <I unit="1/cm">79.6207</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0446845</Q>
+        <I unit="1/cm">69.5741</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0477098</Q>
+        <I unit="1/cm">60.8473</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.05094</Q>
+        <I unit="1/cm">52.3347</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0543888</Q>
+        <I unit="1/cm">43.584</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0580712</Q>
+        <I unit="1/cm">34.8854</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0620029</Q>
+        <I unit="1/cm">27.0301</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0662007</Q>
+        <I unit="1/cm">20.785</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0706828</Q>
+        <I unit="1/cm">16.3474</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0754683</Q>
+        <I unit="1/cm">13.1731</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0805779</Q>
+        <I unit="1/cm">10.3988</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0860333</Q>
+        <I unit="1/cm">7.57909</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0918581</Q>
+        <I unit="1/cm">5.02089</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.0980773</Q>
+        <I unit="1/cm">3.26246</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.104718</Q>
+        <I unit="1/cm">2.27145</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.111807</Q>
+        <I unit="1/cm">1.49711</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.119377</Q>
+        <I unit="1/cm">0.741342</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.12746</Q>
+        <I unit="1/cm">0.329149</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.136089</Q>
+        <I unit="1/cm">0.261274</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.145303</Q>
+        <I unit="1/cm">0.186956</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.155141</Q>
+        <I unit="1/cm">0.16952</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.165644</Q>
+        <I unit="1/cm">0.276104</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.176859</Q>
+        <I unit="1/cm">0.305705</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.188833</Q>
+        <I unit="1/cm">0.33793</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.201618</Q>
+        <I unit="1/cm">0.325948</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.215268</Q>
+        <I unit="1/cm">0.273595</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.229843</Q>
+        <I unit="1/cm">0.202161</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.245404</Q>
+        <I unit="1/cm">0.130364</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.262019</Q>
+        <I unit="1/cm">0.0714323</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.279759</Q>
+        <I unit="1/cm">0.0467796</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.2987</Q>
+        <I unit="1/cm">0.0467426</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.318923</Q>
+        <I unit="1/cm">0.0581376</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.340516</Q>
+        <I unit="1/cm">0.0680745</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.36357</Q>
+        <I unit="1/cm">0.0669626</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.388185</Q>
+        <I unit="1/cm">0.0559255</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.414467</Q>
+        <I unit="1/cm">0.0453719</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.442528</Q>
+        <I unit="1/cm">0.0432503</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.472489</Q>
+        <I unit="1/cm">0.0465343</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.504479</Q>
+        <I unit="1/cm">0.0466267</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.538634</Q>
+        <I unit="1/cm">0.0421302</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.575102</Q>
+        <I unit="1/cm">0.0404166</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.614039</Q>
+        <I unit="1/cm">0.0427208</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+      <Idata>
+        <Q unit="1/A">0.655612</Q>
+        <I unit="1/cm">0.0420009</I>
+        <Idev unit="1/cm">0</Idev>
+      </Idata>
+    </SASdata>
+    <SASsample>
+      <ID/>
+      <thickness unit="mm"/>
+      <details/>
+    </SASsample>
+    <SASinstrument>
+      <name>IGOR</name>
+      <SASsource>
+        <radiation>neutron</radiation>
+        <wavelength unit="A"/>
+      </SASsource>
+      <SAScollimation/>
+      <SASdetector>
+        <name/>
+        <SDD unit="m"/>
+      </SASdetector>
+    </SASinstrument>
+    <SASprocess>
+      <name>canSAS1d/1.0 XML formatter</name>
+      <date>2012-04-02 10:05:07</date>
+      <SASprocessnote name="svnid">Id: index.php 87 2009-09-03 01:38:04Z prjemian</SASprocessnote>
+      <SASprocessnote name="titleStr">formatting of text data into canSAS XML 1D standard</SASprocessnote>
+    </SASprocess>
+    <SASnote/>
+  </SASentry>
+</SASroot>
