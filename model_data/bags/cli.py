@@ -3,14 +3,12 @@
 # Either fire off a set of fits, or generate a bag of tasks as required
 # by Contrail and Conpaas
 
-import pybiosas.modelling
 import pybiosas.models
 import cli_app_template
-import argparse
+import optparse
 import itertools
 import copy
 import json
-import numpy
 import os.path
 from string import Template
 import re
@@ -25,52 +23,63 @@ class CLIApp:
         self.params = None
         self.dataset = None
         self.outpath = None
-        self.progpath = None
+        self.script = None
+        self.xml = None
 
         self.process_args()
+        print self.command, self.model, self.dataset
 
         self._init_fitset()
         self._prep_regex()
 
     def process_args(self):
         self.__init_parser()
-        self.parser.parse_args(namespace=self)
+        (temp, args) = self.parser.parse_args()
+        self.command = temp.command
+        self.model = temp.model
+        self.params = temp.params
+        self.dataset = temp.dataset
+        self.outpath = temp.outpath
+        self.script = temp.script
+        self.xml = temp.xml
 
     def __init_parser(self):
         """Command line parser for taking in optional arguments"""
 
-        self.parser = argparse.ArgumentParser()
+        self.parser = optparse.OptionParser()
         
         self._registered_models = pybiosas.models.models
 
-        self.parser.add_argument('-command', type = str,
-                                 choices = ['fit', 'write'],
+        self.parser.add_option('-c','--command', 
+                                 dest='command', default=None,
                                  help = """Fit models or write out a bag of
                                  tasks given a parameter space to sweep""")
 
-        self.parser.add_argument('-script', type = str,
+        self.parser.add_option('-s','--script', 
+                                 dest='script', default=None,
                                  help = """Location of the python script to
                                  run the model fit on this system""")
 
-        self.parser.add_argument('-dataset', type = str,
+        self.parser.add_option('-d', '--dataset', dest="dataset",
+                                     default=None,
                                      help = "The dataset to use in SasXML format")
 
-        models = []
-        for model in self._registered_models.iterkeys():
-            models.append(model)
-        self.parser.add_argument('-model', type=str,
-                                 choices = models,
+        models = [model for model in iter(self._registered_models)]
+        self.parser.add_option('-m', '--model', type=str,
+                                 dest = "model", default=None,
                                  help = ("""The model to be fitted.
                                  Available models are""" +
                                      str(models)))
         
-        self.parser.add_argument('-parameters', type = str,
-                                 help = """The paramaters, as either a json
+        self.parser.add_option('-p', '--parameters', type = str,
+                                 dest = 'params', default=None,
+                                 help = """The parameters, as either a json
                           file or a list of dictionaries with structure as defined
                           for the parinfo option of mpfit. Parameter sweeps should
                           be defined as lists, 3-tuples (lowest, highest, step)""")
 
-        self.parser.add_argument('-outpath', type = str,
+        self.parser.add_option('-o', '--outpath', type = str,
+                                 dest="outpath", default=None,
                                  help = """A path to a directory for the output
                                  files. If it is desired to name the output file
                                  then terminate the path with that filename.
@@ -78,7 +87,8 @@ class CLIApp:
                                  Default is to place output files in
                                  same directory as the input data file.""")
 
-        self.parser.add_argument('-xml', action = 'store_true',
+        self.parser.add_option('-x', '--xml', action = 'store_true',
+                                 dest="xml", default=None,
                                  help = """Write output to CML file.""")
 
 
@@ -89,10 +99,12 @@ class CLIApp:
         document(model) and the App class is the view.
         """
 
+        print self.command, self.model, self.dataset
         self.fitset = SingleModelFitSet(self.params, self.command,
                                         self.model, self.dataset,
                                         self.outpath, self.script,
                                         self.xml)
+        print self.fitset.args
 
     def main(self):
         """Main loop for the CLI App
@@ -238,17 +250,15 @@ class CLIApp:
             if len(list) == 3:
                 first = float(list[0])
                 last = float(list[1])
-                print list[2]
-                tots = self.float_rg.search(list[2]).group()
-                print tots
-                #group = tots.group(2)
-                #print group
-                interval = float(tots)
+                interval = float(self.float_rg.search(list[2]).group())
 
-                value = numpy.arange(first, last, interval).tolist()
+                value = [first]
+                while first < last:
+                    first = first + interval
+                    value.append(first)
 
             else:
-                raise IOError
+                raise ValueError
 
         return value
 
@@ -439,7 +449,7 @@ class SingleModelFitSet:
         is then over written.
         """
 
-        file = '{:06}'.format(arglist[0])
+        file = '%06d' % arglist[0]
         outpath = os.path.join(self.get_arg('outpath'), file)
 
         args = {'model'   : self.get_arg('model'),

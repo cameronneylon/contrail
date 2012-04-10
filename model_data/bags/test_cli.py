@@ -36,12 +36,9 @@ class TestParams(unittest.TestCase):
         self.testFitSet.write_bag()
 
     def test_set_params(self):
-        #self.assertRaises(IOError, self.testFitSet.set_param('test-param', 0))
         self.testFitSet.set_arg('model', 'sphere')
         self.testFitSet.params.append({'paramname' : 'radius', 'value' : 10.})
         
-        # Not too sure why this next one is passing?
-        self.assertRaises(AssertionError, self.testFitSet.set_param('test-param', 0))
         self.testFitSet.set_param('radius', 5.)
         self.assertEqual(self.testFitSet.params[3]['value'], [5.])
 
