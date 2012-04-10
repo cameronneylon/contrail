@@ -3,7 +3,8 @@
 # Either fire off a set of fits, or generate a bag of tasks as required
 # by Contrail and Conpaas
 
-import pybiosas.models
+import models
+REGISTERED_MODELS = models.models
 import cli_app_template
 import optparse
 import itertools
@@ -48,7 +49,7 @@ class CLIApp:
 
         self.parser = optparse.OptionParser()
         
-        self._registered_models = pybiosas.models.models
+        self._registered_models = REGISTERED_MODELS
 
         self.parser.add_option('-c','--command', 
                                  dest='command', default=None,
@@ -315,7 +316,7 @@ class SingleModelFitSet:
                  xml=True):
 
         self.args = {}
-        self._registered_models = pybiosas.models.models
+        self._registered_models = REGISTERED_MODELS
         self.params = params
         if command:
             self.set_arg('command', command)
