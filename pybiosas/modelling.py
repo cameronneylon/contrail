@@ -285,6 +285,10 @@ class ModelWrapper:
 
         # Setup the input parameter list and populate it
         in_param_list=[]
+
+        in_param_list.append({'value' : self.model,
+                              'attrib' : { 'dictRef' : 'model',
+                                           'units'   : 'N/A'}})
         if self.command == 'fit':
             for parameter in self.parameters_in:
                  in_param_list.append({'value' : parameter['value'],

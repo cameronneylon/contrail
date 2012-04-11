@@ -2,6 +2,8 @@ import xml.etree.ElementTree as ET
 import os
 import os.path
 import optparse
+import models
+REGISTERED_MODELS = models.models
 
 def compare_chi2(first_fit, second_fit):
     diff = first_fit[0]*1e10 - second_fit[0]*1e10
@@ -39,9 +41,19 @@ params = ['chi2', 'length', 'radius', 'sldCyl', 'sldSolv', 'background', 'scale'
 for file in os.listdir(directory):
     fit = []
     parsed = ET.parse(os.path.join(directory, file))
+    
     modules = parsed.getroot().find('module').find('module').findall('module')
+    parameters = modules[0].find('parameterList').findall('parameter')
     properties = modules[1].find('propertyList').findall('property')
     # properties = parsed.getroot().iterfind('property')
+
+    parameter_indices = []
+    for parameter in parameters:
+        parameter_indices.append(property.get('dictRef'))
+
+    model = parameters[parameter_indices.index('model')][0].text
+    params = iter(REGISTERED_MODELS[model]['exp_values'])
+    params.insert[0]('chi2')
 
     prop_indices = []
     for property in properties:
