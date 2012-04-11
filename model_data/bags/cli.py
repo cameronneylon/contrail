@@ -24,6 +24,7 @@ class CLIApp:
         self.params = None
         self.dataset = None
         self.outpath = None
+        self.bagpath = None
         self.script = None
         self.xml = None
 
@@ -41,6 +42,7 @@ class CLIApp:
         self.params = temp.params
         self.dataset = temp.dataset
         self.outpath = temp.outpath
+        self.bagpath = temp.bagpath
         self.script = temp.script
         self.xml = temp.xml
 
@@ -88,6 +90,14 @@ class CLIApp:
                                  Default is to place output files in
                                  same directory as the input data file.""")
 
+        self.parser.add_option('-b', '--bagpath', type = str,
+                                 dest="bagpath", default=None,
+                                 help = """Path for writing out the bag of tasks.
+                                 This is expected to be set by a calling shell
+                                 script in most cases as user will not be aware
+                                 of where bag should go on the client VMs""")
+
+
         self.parser.add_option('-x', '--xml', action = 'store_true',
                                  dest="xml", default=None,
                                  help = """Write output to CML file.""")
@@ -103,8 +113,8 @@ class CLIApp:
         print self.command, self.model, self.dataset
         self.fitset = SingleModelFitSet(self.params, self.command,
                                         self.model, self.dataset,
-                                        self.outpath, self.script,
-                                        self.xml)
+                                        self.outpath, self.bagpath,
+                                        self.script,self.xml)
         print self.fitset.args
 
     def main(self):
@@ -312,8 +322,8 @@ class SingleModelFitSet:
     """
 
     def __init__(self, params=[], command = None, model=None,
-                 dataset=None, outpath = None, progpath=None,
-                 xml=True):
+                 dataset=None, outpath = None, bagpath = None,
+                 progpath=None, xml=True):
 
         self.args = {}
         self._registered_models = REGISTERED_MODELS
@@ -326,6 +336,8 @@ class SingleModelFitSet:
             self.set_arg('dataset', dataset)
         if outpath:
             self.set_arg('outpath', outpath)
+        if bagpath:
+            self.set_arg('bagpath', bagpath)
         if progpath:
             self.set_arg('progpath', progpath)
         if xml:
@@ -344,7 +356,7 @@ class SingleModelFitSet:
         """
 
         assert (type(value) == str or type(value) == bool)
-        assert arg in ['command', 'model', 'dataset', 'outpath', 'progpath', 'xml']
+        assert arg in ['command', 'model', 'dataset', 'outpath', 'bagpath', 'progpath', 'xml']
 
         self.args[arg] = value
 
@@ -471,11 +483,11 @@ class SingleModelFitSet:
     def write_bag(self):
         """Write out a bag of tasks with all parameters set"""
         
-        t = Template("""python ${progpath} fit -m ${model} -o ${outpath} -d ${dataset} -x -p '${params}'\n\n""")
+        t = Template("""/usr/bin/python ${progpath} fit -m ${model} -o ${outpath} -d ${dataset} -x -p '${params}'\n""")
         
         self.validate_ready()
         tasks = self.enumerate_tasks()
-        f = open('test.bot', 'w')
+        f = open(self.get_arg('bagpath'), 'w')
         for task in tasks:
             task['params'] = json.dumps(task['params'])
             command = t.substitute(task)

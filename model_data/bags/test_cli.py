@@ -12,12 +12,14 @@ class TestParams(unittest.TestCase):
         self.testParamList = [self.testParam, self.testParam, self.testParam]
         self.testdataset = 'test-datafile-name'
         self.testoutpath = 'test-outfile-name'
+        self.testbagpath = 'test.bot'
         self.testprogpath = 'test-progpath'
         self.testmodel = 'test-model'
         self.testFitSet.params = self.testParamList
         self.testFitSet.set_arg('model', self.testmodel)
         self.testFitSet.set_arg('dataset',  self.testdataset)
         self.testFitSet.set_arg('outpath', self.testoutpath)
+        self.testFitSet.set_arg('bagpath', self.testbagpath)
         self.testFitSet.set_arg('progpath', self.testprogpath)
         self.testFitSet.set_arg('xml', True)
         
