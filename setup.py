@@ -16,7 +16,8 @@ setup(name='pybiosas',
       install_requires = [
           'numpy',
           'scipy',
-          'pycml'
+          'pycml',
+          'contrail_sansmodels'
           ],
       test_suite='test'
      )
