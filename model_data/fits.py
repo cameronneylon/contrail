@@ -1,4 +1,5 @@
 from pybiosas import modelling
+print modelling.__file__
 import json
 
 sldSolv=6.3e-6
@@ -15,7 +16,7 @@ for model in ['cylinder', 'ellipse']:
     for start_r in range(10,100,10):
         for length in range(40,400,40):
             for scale in scales:
-                try:
+		    #try:
                     dict = {'cylinder' : { 'radius' : {'value' : start_r,
                                    'paramname' : 'radius'},
                        'length' : {'value' : length,
@@ -56,10 +57,10 @@ for model in ['cylinder', 'ellipse']:
                     modelrun.write()
                     i+=1
                     
-                except:
-                    print 'failed fit'
-                    i+=1
-                    pass
+		    #except:
+                    #print 'failed fit'
+                    #i+=1
+                    #pass
                 
             
     

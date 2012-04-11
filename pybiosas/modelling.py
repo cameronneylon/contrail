@@ -52,6 +52,7 @@ class ApplicationRun():
         self.datain = None
         self.outpath = None
 
+
         self.__init_parser()
         self._raw_args = self.parser.parse_args()
         self.args = vars(self._raw_args)
@@ -125,6 +126,8 @@ class ModelWrapper:
 
         self.outfile = 'sansmodel_output'
         self.args = args
+        self.fitsuccess = False
+        self.traceback = None
         self.__distribute_args()
         self._registered_models = pybiosas.models.models
 
@@ -188,9 +191,10 @@ class ModelWrapper:
             return sum
 
         p = [param() for param in parameters]
-        out, self.cov_x, self.fit_info, mesg, success = scipy.optimize.leastsq(f, p, 
+        out, self.cov_x, self.fit_info, self.mesg, success = scipy.optimize.leastsq(f, p, 
                                                                  full_output=1,
                                                                   maxfev = 1000*len(p))
+        print self.mesg
         # Calculate chi squared
         if len(parameters) > 1:
             self.chisqr = chi2(out)
@@ -204,6 +208,10 @@ class ModelWrapper:
 
         for p in parameters:
             self.parameters[paramlist.index(p.get_name())]['value'] = p.get()
+
+        print self.cov_x
+        if self.cov_x != None:
+            self.fitsuccess = True
 
     def calculate(self):
         """Calculate values of i for given model and q values
@@ -247,7 +255,8 @@ class ModelWrapper:
         if self.dataset:
             outdict['dataset'] = {'q_in' : json.dumps(self.datain.q),
                                   'i_in' : json.dumps(self.datain.i)}
-        if self.command == 'fit':
+            
+        if (self.fitsuccess and (self.command == 'fit')):
             outdict['fit'] = {'chi^2'          : self.chisqr,
                               'cov_x'          : np.array_repr(self.cov_x),
                               'parameters_out' : self.parameters}
@@ -293,22 +302,40 @@ class ModelWrapper:
                                                     
         doc.initialisation().populate(in_param_list)
  
-        # Setup the input parameter list and populate it
+        # Setup the output parameter list and populate it
         out_param_list=[]
-        for parameter in self.parameters:
-            out_param_list.append({'value' : parameter['value'],
-                                  'attrib': { 'dictRef' : parameter['paramname'],
+        if self.fitsuccess:
+    
+            for parameter in self.parameters:
+                out_param_list.append({'value' : parameter['value'],
+                                       'attrib': { 'dictRef' : parameter['paramname'],
                                               'units'   : 'ang or 1/cm'}})
 
-        out_param_list.append({'value' : self.chisqr,
+            out_param_list.append({'value' : str(self.fitsuccess),
+                               'attrib' : { 'dictRef' : 'fitSuccess',
+                                            'units' : 'None'}})
+
+            out_param_list.append({'value' : self.chisqr,
                                'attrib' : { 'dictRef' : 'chi2',
                                             'units'  : 'variance'}})
-        out_param_list.append({'value' : self.q_vals_out,
+            out_param_list.append({'value' : self.q_vals_out,
                                   'attrib': { 'dictRef' : 'modelQData',
                                               'units'   : 'ang^-1'}})
-        out_param_list.append({'value' : self.i_vals_out,
+            out_param_list.append({'value' : self.i_vals_out,
                                   'attrib': { 'dictRef' : 'modelIData',
                                               'units'   : 'cm^-1'}})
+
+        else:
+            out_param_list.append({'value' : str(self.fitsuccess),
+                                   'attrib': { 'dictRef' : 'fitSuccess',
+                                               'units'   : 'N/A'}})
+            out_param_list.append({'value' : str(self.traceback),
+                                   'attrib': { 'dictRef' : 'traceback',
+                                               'units'   : 'N/A'}})
+
+            out_param_list.append({'value' : str(self.mesg),
+                                   'attrib': { 'dictRef' : 'fitMessage',
+                                               'units'   : 'N/A'}})
 
         doc.finalisation().populate(out_param_list)
 
@@ -462,5 +489,8 @@ class Parameter:
 if __name__ == '__main__':
     run = ApplicationRun()
     run.parser.parse_args()
-    run.execute()
+    try: 
+        run.execute()
+    except:
+        run.model_instance.traceback = sys.exc_info()
     run.write_out()
