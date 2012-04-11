@@ -36,39 +36,38 @@ else:
 
 fit_list = []
 
-params = ['chi2', 'length', 'radius', 'sldCyl', 'sldSolv', 'background', 'scale']
-
 for file in os.listdir(directory):
-    fit = []
-    parsed = ET.parse(os.path.join(directory, file))
-    
-    modules = parsed.getroot().find('module').find('module').findall('module')
-    parameters = modules[0].find('parameterList').findall('parameter')
-    properties = modules[1].find('propertyList').findall('property')
-    # properties = parsed.getroot().iterfind('property')
+    if file[len(file)-3:len(file)] == 'xml':
 
-    parameter_indices = []
-    for parameter in parameters:
-        parameter_indices.append(property.get('dictRef'))
-
-    model = parameters[parameter_indices.index('model')][0].text
-    params = iter(REGISTERED_MODELS[model]['exp_values'])
-    params.insert[0]('chi2')
-
-    prop_indices = []
-    for property in properties:
-        prop_indices.append(property.get('dictRef'))
-
-    if 'chi2' in prop_indices:
-        for param in params:
-            i = prop_indices.index(param)
-            prop = properties[i]
+        fit = []
+        parsed = ET.parse(os.path.join(directory, file))
         
-            param_value = prop[0].text
-            param_value = float(param_value)
-            fit.append(param_value)
-        fit.append(file)
-        fit_list.append(fit)
+        modules = parsed.getroot().find('module').find('module').findall('module')
+        parameters = modules[0].find('parameterList').findall('parameter')
+        properties = modules[1].find('propertyList').findall('property')
+
+        parameter_indices = []
+        for parameter in parameters:
+            parameter_indices.append(parameter.get('dictRef'))
+
+        model = parameters[parameter_indices.index('model')][0].text
+        params = [p['paramname'] for p in REGISTERED_MODELS[model]['exp_vals']]
+        params.insert(0, 'chi2')
+
+        prop_indices = []
+        for property in properties:
+            prop_indices.append(property.get('dictRef'))
+
+        if 'chi2' in prop_indices:
+            for param in params:
+                i = prop_indices.index(param)
+                prop = properties[i]
+        
+                param_value = prop[0].text
+                param_value = float(param_value)
+                fit.append(param_value)
+            fit.append(file)
+            fit_list.append(fit)
 
 fit_list.sort(compare_chi2)
 print params
