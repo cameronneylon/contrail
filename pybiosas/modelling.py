@@ -194,7 +194,6 @@ class ModelWrapper:
         out, self.cov_x, self.fit_info, self.mesg, success = scipy.optimize.leastsq(f, p, 
                                                                  full_output=1,
                                                                   maxfev = 1000*len(p))
-        print self.mesg
         # Calculate chi squared
         if len(parameters) > 1:
             self.chisqr = chi2(out)
@@ -209,7 +208,6 @@ class ModelWrapper:
         for p in parameters:
             self.parameters[paramlist.index(p.get_name())]['value'] = p.get()
 
-        print self.cov_x
         if self.cov_x != None:
             self.fitsuccess = True
 
