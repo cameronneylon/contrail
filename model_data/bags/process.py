@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 import os
 import os.path
+import optparse
 
 def compare_chi2(first_fit, second_fit):
     diff = first_fit[0]*1e10 - second_fit[0]*1e10
@@ -21,7 +22,15 @@ def approx_equal(x, y, tol=1e-18, rel=1e-7):
     assert tests
     return abs(x - y) <= max(tests)
 
-directory = raw_input("Path to data?")
+parser = optparse.OptionParser()
+parser.add_option('-p', '--path', dest = 'path', type = str,
+                  help = "Path to a folder of data to process")
+
+(options, args) = parser.parse_args()
+if options.path:
+    directory = options.path
+else:
+    directory = raw_input("Path to data?")
 
 fit_list = []
 
@@ -38,15 +47,16 @@ for file in os.listdir(directory):
     for property in properties:
         prop_indices.append(property.get('dictRef'))
 
-    for param in params:
-        i = prop_indices.index(param)
-        prop = properties[i]
+    if 'chi2' in prop_indices:
+        for param in params:
+            i = prop_indices.index(param)
+            prop = properties[i]
         
-        param_value = prop[0].text
-        param_value = float(param_value)
-        fit.append(param_value)
-
-    fit_list.append(fit)
+            param_value = prop[0].text
+            param_value = float(param_value)
+            fit.append(param_value)
+        fit.append(file)
+        fit_list.append(fit)
 
 fit_list.sort(compare_chi2)
 print params
@@ -65,6 +75,7 @@ while i < len(fit_list)-1:
         count = 1
     i+=1
 
+print '\n\n'
 print params
 for fit in concatenated:
     print fit
